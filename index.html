@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>臺大醫院 安寧預後紀錄產生器</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
+
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+
+    <!--
+        <script src="" async defer></script>
+    -->
+    <h1>臺大醫院 安寧預後記錄評估</h1>
+
+    <form id="myForm">
+      <label for="sex">性別：</label>
+      <input type="Radio" name="sex" value="Male" />男性
+      <input type="Radio" name="sex" value="Female" />女性
+      <br />
+
+      <label for="diagnosis">病人的末期診斷是：</label><br />
+      <select id="diagnosis" onchange="checkDiagnosis()">
+        <option value="">---</option>
+        <option value="癌症">癌症</option>
+        <option value="神經疾病">神經疾病</option>
+        <option value="心臟疾病(心衰竭)">心臟疾病(心衰竭)</option>
+        <option value="肺部疾病">肺部疾病</option>
+        <option value="慢性肝病">慢性肝病</option>
+        <option value="腎臟疾病(腎衰竭)">腎臟疾病(腎衰竭)</option>
+        <option value="老年衰弱症">老年衰弱症</option>
+        <option value="其他">其他</option>
+      </select>
+      <div id="diseaseTypeDiv"></div>
+
+      <div id="evaluation">
+        <h3>臨床評估</h3>
+
+        <label for="ambulation">病人的移動能力：</label><br />
+        <select id="ambulation">
+          <option value="">---</option>
+          <option value="可以完全正常移動與活動">可以完全正常移動與活動</option>
+          <option value="活動量減少">活動量減少</option>
+          <option value="主要坐或躺">主要坐或躺</option>
+          <option value="大多臥床">大多臥床</option>
+          <option value="完全臥床">完全臥床</option>
+        </select>
+        <br /><br />
+
+        <label for="activity">病人的活動量：</label><br />
+        <select id="activity">
+          <option value="">---</option>
+          <option value="完全正常活動與工作/沒有疾病的明顯現象">
+            完全正常活動與工作/沒有疾病的明顯現象
+          </option>
+          <option value="完全正常活動與工作/有一些疾病的徵兆">
+            完全正常活動與工作/有一些疾病的徵兆
+          </option>
+          <option value="較費力進行正常活動/有一些疾病的徵兆">
+            較費力進行正常活動/有一些疾病的徵兆
+          </option>
+          <option value="無法做正常活動或工作/明顯疾病徵兆">
+            無法做正常活動或工作/明顯疾病徵兆
+          </option>
+          <option value="無法從事自己的嗜好或做家事/明顯疾病徵兆">
+            無法從事自己的嗜好或做家事/明顯疾病徵兆
+          </option>
+          <option value="無法做任何工作/明顯且廣泛的疾病徵兆">
+            無法做任何工作/明顯且廣泛的疾病徵兆
+          </option>
+          <option value="無法做大部分活動/明顯且廣泛的疾病徵兆">
+            無法做大部分活動/明顯且廣泛的疾病徵兆
+          </option>
+          <option value="無法做任何活動/明顯且廣泛的疾病徵兆">
+            無法做任何活動/明顯且廣泛的疾病徵兆
+          </option>
+        </select>
+        <br /><br />
+
+        <label for="selfCare">病人的自我照顧能力：</label><br />
+        <select id="selfCare">
+          <option value="">---</option>
+          <option value="可完全自理">可完全自理</option>
+          <option value="大多可自理， 有時需要必要的協助">
+            大多可自理， 有時需要必要的協助
+          </option>
+          <option value="需要不少協助">需要不少協助</option>
+          <option value="主要依賴他人協助">主要依賴他人協助</option>
+          <option value="完全無法自理">完全無法自理</option>
+        </select>
+        <br /><br />
+
+        <label for="appetite">病人的食慾/胃口：</label><br />
+        <select id="appetite">
+          <option value="">---</option>
+          <option value="正常">正常</option>
+          <option value="減少">減少</option>
+          <option value="極少量 僅進食少量泥狀或液體，不符一般營養需求">
+            極少量 僅進食少量泥狀或液體，不符一般營養需求
+          </option>
+          <option value="無進食，僅有口腔護理">無進食，僅有口腔護理</option>
+        </select>
+        <br /><br />
+
+        <label for="consciousness">病人的食慾/胃口：</label><br />
+        <select id="consciousness">
+          <option value="">---</option>
+          <option value="完全清醒">完全清醒</option>
+          <option value="較不清醒，有迷惑 (Confusion) 、有瞻妄或失智">
+            較不清醒，有迷惑 (Confusion) 、有瞻妄或失智
+          </option>
+          <option value="多數時間昏沉">多數時間昏沉</option>
+          <option value="昏迷 (對任何語言或物理刺激無反應)">
+            昏迷 (對任何語言或物理刺激無反應)
+          </option>
+        </select>
+        <br /><br />
+
+        <label for="edema">水腫：</label><br />
+        <input type="Radio" name="edema" value="yes" />有
+        <input type="Radio" name="edema" value="no" />無 <br /><br />
+
+        <label for="delirium">瞻妄(Delirium)：</label><br />
+        <input type="Radio" name="delirium" value="yes" />有
+        <input type="Radio" name="delirium" value="no" />無 <br /><br />
+
+        <label for="dyspnea">喘/呼吸困難：</label><br />
+        <select id="dyspnea">
+          <option value="否">否</option>
+          <option value="是，輕微(活動時感到喘)">是，輕微(活動時感到喘)</option>
+          <option value="是，嚴重(休息時亦感到喘)">
+            是，嚴重(休息時亦感到喘)
+          </option>
+        </select>
+        <br /><br />
+
+        <label for="anorexia">厭食(anorexia)：</label><br />
+        <input type="Radio" name="anorexia" value="yes" />有
+        <input type="Radio" name="anorexia" value="no" />無 <br /><br />
+
+        <label for="AKPS">病人的 Karnofsky Performance Score(KPS)：</label
+        ><br />
+        <select id="AKPS">
+          <option value="10 昏迷，或是幾乎叫不醒">
+            10 昏迷，或是幾乎叫不醒
+          </option>
+          <option value="20 完全臥床，需要專業人與與家屬照顧">
+            20 完全臥床，需要專業人與與家屬照顧
+          </option>
+          <option value="30 幾乎完全臥床">30 幾乎完全臥床</option>
+          <option value="40 臥床的時間 > 50%">40 臥床的時間 > 50%</option>
+          <option value="50 生活需要別人協助，且經常需要醫療照護">
+            50 生活需要別人協助，且經常需要醫療照護
+          </option>
+          <option value="60 生活有時需要協助，大多時間可自理">
+            60 生活有時需要協助，大多時間可自理
+          </option>
+          <option value="70 生活可以自理，無法維持正常活動或工作">
+            70 生活可以自理，無法維持正常活動或工作
+          </option>
+          <option value="80 勉強正常活動，有些許疾病的症狀o r 徵兆">
+            80 勉強正常活動，有些許疾病的症狀 or 徵兆
+          </option>
+          <option value="90 可以正常活動，輕微的症狀或徵兆">
+            90 可以正常活動，輕微的症狀或徵兆
+          </option>
+          <option value="100 完全正常，沒有不適">100 完全正常，沒有不適</option>
+        </select>
+        <br /><br />
+
+        <label for="pain">病人的疼痛狀況：</label><br />
+        <select id="pain">
+          <option value="完全不痛">完全不痛</option>
+          <option value="輕微不適 使用止痛藥下可控制">
+            輕微不適 使用止痛藥下可控制
+          </option>
+          <option value="難以控制 常需使用救急止痛藥">
+            難以控制 常需使用救急止痛藥
+          </option>
+        </select>
+        <br /><br />
+
+        <label for="jaundice">黃疸：</label><br />
+        <input type="Radio" name="jaundice" value="yes" />有
+        <input type="Radio" name="jaundice" value="no" />無 <br /><br />
+
+        <label for="purpura">皮膚紫斑：</label><br />
+        <select id="purpura">
+          <option value="無">無</option>
+          <option value="有，一處部位">有，一處部位</option>
+          <option value="有，二處以上部位">有，二處以上部位</option>
+        </select>
+        <br /><br />
+
+        <label for="urination">排尿：</label><br />
+        <select id="urination">
+          <option value="正常">正常</option>
+          <option value="減少">減少</option>
+          <option value="幾乎無排尿">幾乎無排尿</option>
+        </select>
+        <br /><br />
+
+        <label for="carePhase">您認為病人處於何種照顧階段：</label><br />
+        <select id="carePhase">
+          <option value="穩定 Stable">穩定 Stable</option>
+          <option
+            value="不穩定 Unstable (出現新問題 / 舊問題的嚴重程度快速上升)"
+          >
+            不穩定 Unstable (出現新問題 / 舊問題的嚴重程度快速上升)
+          </option>
+          <option
+            value="惡化 Deteriorating (非屬不穩定的緊急狀況，病人之整體功能正在下降/症狀逐漸惡化)"
+          >
+            惡化 Deteriorating
+            (非屬不穩定的緊急狀況，病人之整體功能正在下降/症狀逐漸惡化)
+          </option>
+          <option value="臨終/瀕死 Terminal (預期近日內會死亡)">
+            臨終/瀕死 Terminal (預期近日內會死亡)
+          </option>
+        </select>
+        <br /><br />
+
+        <label for="predictedPrognosis"
+          >如果要選擇最有可能的時間，你覺得這個病人的預期餘命是？：</label
+        ><br />
+        <select id="predictedPrognosis">
+          <option value="< 1周">< 1周</option>
+          <option value="1-2 周">1-2 周</option>
+          <option value="3-4 周">3-4 周</option>
+          <option value="5-6 周">5-6 周</option>
+          <option value="7-8 周">7-8 周</option>
+          <option value="9-10 周">9-10 周</option>
+          <option value="10-11周">10-11周</option>
+          <option value="> 12 周">> 12 周</option>
+        </select>
+        <br /><br />
+
+        <label for="7daySurvival">你認為病人在7天內死亡的機率為多少%？</label>
+        <input
+          type="range"
+          id="7daySurvival"
+          name="7daySurvival"
+          min="0"
+          max="100"
+          value="50"
+          step="1"
+        />
+        <span id="7daySliderValue">50</span>
+        <br /><br />
+
+        <label for="14daySurvival">你認為病人在14天內死亡的機率為多少%？</label>
+        <input
+          type="range"
+          id="14daySurvival"
+          name="14daySurvival"
+          min="0"
+          max="100"
+          value="50"
+          step="1"
+        />
+        <span id="14daySliderValue">50</span>
+        <br /><br />
+
+        <label for="30daySurvival">你認為病人在30天內死亡的機率為多少%？</label>
+        <input
+          type="range"
+          id="30daySurvival"
+          name="30daySurvival"
+          min="0"
+          max="100"
+          value="50"
+          step="1"
+        />
+        <span id="30daySliderValue">50</span>
+      </div>
+
+      <input type="button" id="submitButton" value="評估完成!" />
+    </form>
+
+    <h2>生成的文字:</h2>
+    <!-- 這是用來顯示結果的區塊 -->
+    <div id="resultDiv"></div>
+    <div id="diseaseTypeDiv"></div>
+
+    <script>
+      //填寫問卷階段
+      //依照不同診斷而產生進階結果
+      function checkDiagnosis() {
+        const diagnosis = document.getElementById("diagnosis").value;
+        const diseaseTypeDiv = document.getElementById("diseaseTypeDiv");
+
+        if (diagnosis === "癌症") {
+          const label = document.createElement("label");
+          label.innerText = "癌症部位：";
+
+          const select = document.createElement("select");
+          select.id = "cancerType";
+          select.innerHTML = `
+                <option value="">請選擇癌症部位</option>
+                <option value="中樞神經或腦癌">中樞神經或腦癌</option>
+                <option value="頭頸癌">頭頸癌</option>
+                <option value="肺癌">肺癌</option>
+                <option value="乳癌">乳癌</option>
+                <option value="肝癌">肝癌</option>
+                <option value="胃癌">胃癌</option>
+                <option value="胰臟癌">胰臟癌</option>
+                <option value="腎臟癌">腎臟癌</option>
+                <option value="攝護腺癌">攝護腺癌</option>
+                <option value="膀胱癌">膀胱癌</option>
+                <option value="子宮體與子宮頸癌">子宮體與子宮頸癌</option>
+                <option value="卵巢癌">卵巢癌</option>
+                <option value="大腸直腸癌">大腸直腸癌</option>
+                <option value="淋巴瘤">淋巴瘤</option>
+                <option value="血液疾病">血液疾病</option>
+                <option value="皮膚癌">皮膚癌</option>
+                <option value="甲狀腺癌">甲狀腺癌</option>
+                <option value="Sarcoma">Sarcoma</option>
+                <option value="其它">其它</option>
+                <!-- ...other types... -->
+                `;
+
+          diseaseTypeDiv.innerHTML = ""; // Clear the div
+          diseaseTypeDiv.appendChild(label);
+          diseaseTypeDiv.appendChild(select);
+        } else if (diagnosis === "神經疾病") {
+          const label = document.createElement("label");
+          label.innerText = "神經疾病的種類：";
+
+          const select = document.createElement("select");
+          select.id = "neurologicalType";
+          select.innerHTML = `
+              <option value="">選擇一個神經診斷</option>
+              <option value="失智症">失智症</option>
+              <option value="腦中風">腦中風</option>
+              <option value="腦傷">腦傷</option>
+              <option value="多發性硬化症">多發性硬化症</option>
+              <option value="巴金森氏症">巴金森氏症</option>
+              <option value="其他">其他</option>
+              `;
+
+          diseaseTypeDiv.innerHTML = ""; // Clear the div
+          diseaseTypeDiv.appendChild(label);
+          diseaseTypeDiv.appendChild(select);
+        } else if (diagnosis === "腎臟疾病(腎衰竭)") {
+          const label = document.createElement("label");
+          label.innerText = "腎衰竭的原因：";
+
+          const select = document.createElement("select");
+          select.id = "renalFaliureType";
+          select.innerHTML = `
+              <option value="">選擇急性或慢性</option>
+              <option value="慢性腎病(ESRD)">慢性腎病(ESRD)</option>
+              <option value="急性腎衰竭">急性腎衰竭</option>
+              `;
+
+          diseaseTypeDiv.innerHTML = ""; // Clear the div
+          diseaseTypeDiv.appendChild(label);
+          diseaseTypeDiv.appendChild(select);
+        } else {
+          diseaseTypeDiv.innerHTML = ""; // Clear the div if the diagnosis is not cancer
+        }
+      }
+
+      // Survival slider 滑桿數字顯示
+      document.addEventListener("DOMContentLoaded", function () {
+        const sliderDay7 = document.getElementById("7daySurvival");
+        const sliderValueDay7 = document.getElementById("7daySliderValue");
+        // 初始化顯示值
+        sliderValueDay7.textContent = sliderDay7.value;
+        // 當滑桿值改變時，更新顯示值
+        sliderDay7.addEventListener("input", function () {
+          sliderValueDay7.textContent = sliderDay7.value;
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const sliderDay14 = document.getElementById("14daySurvival");
+        const sliderValueDay14 = document.getElementById("14daySliderValue");
+        // 初始化顯示值
+        sliderValueDay14.textContent = sliderDay14.value;
+        // 當滑桿值改變時，更新顯示值
+        sliderDay14.addEventListener("input", function () {
+          sliderValueDay14.textContent = sliderDay14.value;
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const sliderDay30 = document.getElementById("30daySurvival");
+        const sliderValueDay30 = document.getElementById("30daySliderValue");
+        // 初始化顯示值
+        sliderValueDay30.textContent = sliderDay30.value;
+        // 當滑桿值改變時，更新顯示值
+        sliderDay30.addEventListener("input", function () {
+          sliderValueDay30.textContent = sliderDay30.value;
+        });
+      });
+
+      //按下送出階段，產生文字
+      document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submitButton");
+        const resultDiv = document.getElementById("resultDiv");
+
+        submitButton.addEventListener("click", function () {
+          // 收集診斷資料
+          const diagnosis = document.getElementById("diagnosis").value;
+          // 收集次診斷資料
+          let diagnosis_detail = "";
+          ///癌症次診斷
+          try {
+            const cancerType = document.getElementById("cancerType").value;
+            // Do something with value
+            diagnosis_detail = "(" + cancerType + ")";
+          } catch (error) {
+            console.warn("cancerType Element or value not found, skipping...");
+          }
+          ///神經學次診斷
+          try {
+            const neurologicalType =
+              document.getElementById("neurologicalType").value;
+            // Do something with value
+            diagnosis_detail = "(" + neurologicalType + ")";
+          } catch (error) {
+            console.warn(
+              "neurologicalType Element or value not found, skipping..."
+            );
+          }
+          ///腎衰竭次診斷
+          try {
+            const renalFailureType =
+              document.getElementById("renalFailureType").value;
+            // Do something with value
+            diagnosis_detail = "(" + renalFailureType + ")";
+          } catch (error) {
+            console.warn(
+              "renalFailureType Element or value not found, skipping..."
+            );
+          }
+
+          //收集功能評估
+          ///ambulation
+          const ambulation = document.getElementById("ambulation").value;
+          ///activity
+          const activity = document.getElementById("activity").value;
+          ///appetite
+          const appetite = document.getElementById("appetite").value;
+          ///selfCare
+          const selfCare = document.getElementById("selfCare").value;
+
+          ///consciousness
+          const consciousness = document.getElementById("consciousness").value;
+
+          ///edema
+          const edema = document.querySelector(
+            'input[name="edema"]:checked'
+          ).value;
+          ///delirium
+          const delirium = document.querySelector(
+            'input[name="delirium"]:checked'
+          ).value;
+          ///dyspnea
+          const dyspnea = document.getElementById("dyspnea").value;
+          ///anorexia
+          const anorexia = document.querySelector(
+            'input[name="anorexia"]:checked'
+          ).value;
+          ///AKPS
+          const AKPS = document.getElementById("AKPS").value;
+
+          ///pain
+          const pain = document.getElementById("pain").value;
+          ///jaundice
+          const jaundice = document.querySelector(
+            'input[name="jaundice"]:checked'
+          ).value;
+
+          ///purpura
+          const purpura = document.getElementById("purpura").value;
+
+          ///urination
+          const urination = document.getElementById("urination").value;
+
+          ///carePhase
+          const carePhase = document.getElementById("carePhase").value;
+
+          ///predictedPrognosis
+          const predictedPrognosis =
+            document.getElementById("predictedPrognosis").value;
+
+          ///7daySurvival
+          const survivalDay7 = document.getElementById("7daySurvival").value;
+
+          ///14daySurvival
+          const survivalDay14 = document.getElementById("14daySurvival").value;
+
+          ///30daySurvival
+          const survivalDay30 = document.getElementById("30daySurvival").value;
+
+          // 計算PPS
+          let PPS = "";
+          if (ambulation == "可以完全正常移動與活動") {
+            if (activity == "完全正常活動與工作/沒有疾病的明顯現象") {
+              PPS = "100 %";
+            } else {
+              //若無法完全正常工作活動就是80-90分
+              if (appetite == "正常") {
+                PPS =  "90 %";
+              } else {
+                PPS =  "80 %"; //若食量減少就屬於80分
+              }
+            }
+          } else if (ambulation == "活動量減少") {
+            if (selfCare == "可完全自理") {
+              if (consciousness == "完全清醒") {
+                PPS =  "70 %";
+              } else {
+                PPS =  "60 %"; //若意識有較不清醒就屬60分
+              }
+            } else {
+              PPS =  "60 %"; //若無法完全自理就屬於60分
+            }
+          } else if (ambulation == "主要坐或躺") {
+            if (selfCare == "需要不少協助") {
+              if (consciousness == "昏迷") {
+                PPS =  "40 %"; //若病人被評為昏迷，應屬40分
+              } else {
+                PPS =  "50 %";
+              }
+            }
+          } else if (ambulation == "大多臥床") {
+            if (selfCare == "主要依賴他人協助") {
+              //selfCare應為主要依賴他人協助
+              PPS =  "40 %";
+            } else if (selfCare == "完全無法自理") {
+              PPS =  "30 %"; //若平完全依賴他人，則應該也算是bed-ridden應該要30%
+            }
+          } else if (ambulation == "完全臥床") {
+            if (appetite == "無進食，僅有口腔護理") {
+              PPS =  "10 %";
+            } else if (
+              appetite == "極少量 僅進食少量泥狀或液體，不符一般營養需求"
+            ) {
+              PPS =  "20 %";
+            } else {
+              PPS =  "30 %";
+            }
+          }
+
+          // 組合結果
+          let resultText = `
+          <h2>結果：</h2>
+          <p>Terminal Diagnosis: ${diagnosis} ${diagnosis_detail}</p>
+          <p>Ambulation: ${ambulation}</p>
+          <p>Activity: ${activity}</p>
+          <p>Appetite: ${appetite}</p>
+          <p>Self-care: ${selfCare}</p>
+          <p>Consciousness: ${consciousness}</p>
+
+        
+          <p>Edema:${edema}</p>
+          <p>Delirium:${delirium}</p>
+          <p>Dyspnea:${dyspnea}</p>
+          <p>Anorexia:${anorexia}</p>
+          <p>AKPS: ${AKPS}</p>
+          <p>Pain: ${pain}</p>
+
+          <p>Jaundice: ${jaundice}</p>
+          <p>Purpura: ${jaundice}</p>
+          <p>Urination: ${urination}</p>
+          <p>Care Phase: ${carePhase}</p>
+          <p>------------------------</p>
+          <p>Predicted prognosis: ${predictedPrognosis}</p>
+          <p>Predicted 7-day death: ${survivalDay7} %</p>
+          <p>Predicted 14-day death: ${survivalDay14} %</p>
+          <p>Predicted 30-day death: ${survivalDay30} %</p>
+
+          <!-- 其他問題的結果... -->
+          <p>Palliative performance scale (PPS): ${PPS}</p>
+          `;
+
+          // 顯示結果
+          resultDiv.innerHTML = resultText;
+        });
+      });
+    </script>
+  </body>
+</html>
