@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.column {
+  background-color: lightgray;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+/* Media query for screens wider than 600px */
+@media (min-width: 600px) {
+  .container {
+    flex-direction: row;
+  }
+}
