@@ -7,6 +7,26 @@
     <title>臺大醫院 安寧預後紀錄產生器</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      /* 設定full-height讓div剛好占據整個頁面 */
+    .full-height {
+    height: 100vh; /* Set the height to 100% of the viewport height */
+  }
+  .form-height {
+    height: 94vh; /* Set the height to 95% of the viewport height */
+  }
+  .result-height{
+    height: 65vh;
+  }
+  .title-height{
+    height: 5vh;
+  }
+/* 設定scrollable-div的區域跟parent element同高 */
+  .scrollable-div {
+    height: 100%; /* Set the height to 100% of the parent element */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+    </style>
     <!--響應式網頁-->
     <!--<link rel="stylesheet" href="styles.css"> -->
     <!-- Bootstrap CSS -->
@@ -29,310 +49,432 @@
     <!--
         <script src="" async defer></script>
     -->
-    <div class = "container">
-      <div class="row">
-        <div class = "col bg-success p-2 text-dark bg-opacity-25 text-center">  
-          <h1>NTUH Palliative Evaluation Record Generator</h1> 
+    <div class="container full-height">
+      <div class="container title-height">
+        <div class="row title-height">
+          <div class="col bg-success p-1 text-dark bg-opacity-25 text-center title-height">
+            <h1 style="font-size: 3vh">NTUH Palliative Evaluation Record Generator</h1>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col bg-info text-dark bg-opacity-10 position-relative" >  
-          <p>請填寫以下內容，並在完成後將右側生成之評估記載於病歷。</p>
-          <form id="myForm">
-            <h3>基本資料</h3>
-            <label for="sex">性別：</label>
-            <input type="Radio" name="sex" value="Male" />男性
-            <input type="Radio" name="sex" value="Female" />女性
-            <br>
-
-            <label for="diagnosis">病人的末期診斷是：</label><br />
-            <select id="diagnosis" onchange="checkDiagnosis()">
-              <option value="">---</option>
-              <option value="癌症">癌症</option>
-              <option value="神經疾病">神經疾病</option>
-              <option value="心臟疾病(心衰竭)">心臟疾病(心衰竭)</option>
-              <option value="肺部疾病">肺部疾病</option>
-              <option value="慢性肝病">慢性肝病</option>
-              <option value="腎臟疾病(腎衰竭)">腎臟疾病(腎衰竭)</option>
-              <option value="老年衰弱症">老年衰弱症</option>
-              <option value="其他">其他</option>
-            </select>
-
-            <div id="diseaseTypeDiv"></div>
-            <br>
-
-            <div id="evaluation">
-              <h3>臨床評估</h3>
-
-              <label for="ambulation">病人的移動能力：</label><br />
-              <select id="ambulation">
+      <div class="container form-height" >
+        <div class="row form-height">
+          <div class="col bg-info p-1 text-dark bg-opacity-10 scrollable-div"
+          style="overflow:scroll; " 
+          >
+            <p>請依照您對病人的評估填寫以下內容</p>
+            <form id="myForm">
+              <h3>基本資料</h3>
+              <label for="sex">性別：</label>
+              <input
+                type="Radio"
+                name="sex"
+                value="Male"
+                class="form-check-input"
+              />男性
+              <input
+                type="Radio"
+                name="sex"
+                value="Female"
+                class="form-check-input"
+              />女性
+              <br />
+  
+              <label for="diagnosis">病人的末期診斷是：</label><br />
+              <select
+                id="diagnosis"
+                class="form-select"
+                aria-label="Default select example"
+                onchange="checkDiagnosis()"
+              >
                 <option value="">---</option>
-                <option value="可以完全正常移動與活動">
-                  可以完全正常移動與活動
-                </option>
-                <option value="活動量減少">活動量減少</option>
-                <option value="主要坐或躺">主要坐或躺</option>
-                <option value="大多臥床">大多臥床</option>
-                <option value="完全臥床">完全臥床</option>
+                <option value="癌症">癌症</option>
+                <option value="神經疾病">神經疾病</option>
+                <option value="心臟疾病(心衰竭)">心臟疾病(心衰竭)</option>
+                <option value="肺部疾病">肺部疾病</option>
+                <option value="慢性肝病">慢性肝病</option>
+                <option value="腎臟疾病(腎衰竭)">腎臟疾病(腎衰竭)</option>
+                <option value="老年衰弱症">老年衰弱症</option>
+                <option value="其他">其他</option>
               </select>
-              <br /><br />
-
-              <label for="activity">病人的活動量：</label><br />
-              <select id="activity">
-                <option value="">---</option>
-                <option value="完全正常活動與工作/沒有疾病的明顯現象">
-                  完全正常活動與工作/沒有疾病的明顯現象
-                </option>
-                <option value="完全正常活動與工作/有一些疾病的徵兆">
-                  完全正常活動與工作/有一些疾病的徵兆
-                </option>
-                <option value="較費力進行正常活動/有一些疾病的徵兆">
-                  較費力進行正常活動/有一些疾病的徵兆
-                </option>
-                <option value="無法做正常活動或工作/明顯疾病徵兆">
-                  無法做正常活動或工作/明顯疾病徵兆
-                </option>
-                <option value="無法從事自己的嗜好或做家事/明顯疾病徵兆">
-                  無法從事自己的嗜好或做家事/明顯疾病徵兆
-                </option>
-                <option value="無法做任何工作/明顯且廣泛的疾病徵兆">
-                  無法做任何工作/明顯且廣泛的疾病徵兆
-                </option>
-                <option value="無法做大部分活動/明顯且廣泛的疾病徵兆">
-                  無法做大部分活動/明顯且廣泛的疾病徵兆
-                </option>
-                <option value="無法做任何活動/明顯且廣泛的疾病徵兆">
-                  無法做任何活動/明顯且廣泛的疾病徵兆
-                </option>
-              </select>
-              <br /><br />
-
-              <label for="selfCare">病人的自我照顧能力：</label><br />
-              <select id="selfCare">
-                <option value="">---</option>
-                <option value="可完全自理">可完全自理</option>
-                <option value="大多可自理， 有時需要必要的協助">
-                  大多可自理， 有時需要必要的協助
-                </option>
-                <option value="需要不少協助">需要不少協助</option>
-                <option value="主要依賴他人協助">主要依賴他人協助</option>
-                <option value="完全無法自理">完全無法自理</option>
-              </select>
-              <br /><br />
-
-              <label for="appetite">病人的食慾/胃口：</label><br />
-              <select id="appetite">
-                <option value="">---</option>
-                <option value="正常">正常</option>
-                <option value="減少">減少</option>
-                <option value="極少量 僅進食少量泥狀或液體，不符一般營養需求">
-                  極少量 僅進食少量泥狀或液體，不符一般營養需求
-                </option>
-                <option value="無進食，僅有口腔護理">
-                  無進食，僅有口腔護理
-                </option>
-              </select>
-              <br /><br />
-
-              <label for="consciousness">病人的食慾/胃口：</label><br />
-              <select id="consciousness">
-                <option value="">---</option>
-                <option value="完全清醒">完全清醒</option>
-                <option value="較不清醒，有迷惑 (Confusion) 、有瞻妄或失智">
-                  較不清醒，有迷惑 (Confusion) 、有瞻妄或失智
-                </option>
-                <option value="多數時間昏沉">多數時間昏沉</option>
-                <option value="昏迷 (對任何語言或物理刺激無反應)">
-                  昏迷 (對任何語言或物理刺激無反應)
-                </option>
-              </select>
-              <br /><br />
-
-              <label for="edema">水腫：</label><br />
-              <input type="Radio" name="edema" value="yes" />有
-              <input type="Radio" name="edema" value="no" />無 <br /><br />
-
-              <label for="delirium">瞻妄(Delirium)：</label><br />
-              <input type="Radio" name="delirium" value="yes" />有
-              <input type="Radio" name="delirium" value="no" />無 <br /><br />
-
-              <label for="dyspnea">喘/呼吸困難：</label><br />
-              <select id="dyspnea">
-                <option value="否">否</option>
-                <option value="是，輕微(活動時感到喘)">
-                  是，輕微(活動時感到喘)
-                </option>
-                <option value="是，嚴重(休息時亦感到喘)">
-                  是，嚴重(休息時亦感到喘)
-                </option>
-              </select>
-              <br /><br />
-
-              <label for="anorexia">厭食(anorexia)：</label><br />
-              <input type="Radio" name="anorexia" value="yes" />有
-              <input type="Radio" name="anorexia" value="no" />無 <br /><br />
-
-              <label for="AKPS">病人的 Karnofsky Performance Score(KPS)：</label
-              ><br />
-              <select id="AKPS">
-                <option value="10 昏迷，或是幾乎叫不醒">
-                  10 昏迷，或是幾乎叫不醒
-                </option>
-                <option value="20 完全臥床，需要專業人與與家屬照顧">
-                  20 完全臥床，需要專業人與與家屬照顧
-                </option>
-                <option value="30 幾乎完全臥床">30 幾乎完全臥床</option>
-                <option value="40 臥床的時間 > 50%">40 臥床的時間 > 50%</option>
-                <option value="50 生活需要別人協助，且經常需要醫療照護">
-                  50 生活需要別人協助，且經常需要醫療照護
-                </option>
-                <option value="60 生活有時需要協助，大多時間可自理">
-                  60 生活有時需要協助，大多時間可自理
-                </option>
-                <option value="70 生活可以自理，無法維持正常活動或工作">
-                  70 生活可以自理，無法維持正常活動或工作
-                </option>
-                <option value="80 勉強正常活動，有些許疾病的症狀o r 徵兆">
-                  80 勉強正常活動，有些許疾病的症狀 or 徵兆
-                </option>
-                <option value="90 可以正常活動，輕微的症狀或徵兆">
-                  90 可以正常活動，輕微的症狀或徵兆
-                </option>
-                <option value="100 完全正常，沒有不適">
-                  100 完全正常，沒有不適
-                </option>
-              </select>
-              <br /><br />
-
-              <label for="pain">病人的疼痛狀況：</label><br />
-              <select id="pain">
-                <option value="完全不痛">完全不痛</option>
-                <option value="輕微不適 使用止痛藥下可控制">
-                  輕微不適 使用止痛藥下可控制
-                </option>
-                <option value="難以控制 常需使用救急止痛藥">
-                  難以控制 常需使用救急止痛藥
-                </option>
-              </select>
-              <br /><br />
-
-              <label for="jaundice">黃疸：</label><br />
-              <input type="Radio" name="jaundice" value="yes" />有
-              <input type="Radio" name="jaundice" value="no" />無 <br /><br />
-
-              <label for="purpura">皮膚紫斑：</label><br />
-              <select id="purpura">
-                <option value="無">無</option>
-                <option value="有，一處部位">有，一處部位</option>
-                <option value="有，二處以上部位">有，二處以上部位</option>
-              </select>
-              <br /><br />
-
-              <label for="urination">排尿：</label><br />
-              <select id="urination">
-                <option value="正常">正常</option>
-                <option value="減少">減少</option>
-                <option value="幾乎無排尿">幾乎無排尿</option>
-              </select>
-              <br /><br />
-
-              <label for="carePhase">您認為病人處於何種照顧階段：</label><br />
-              <select id="carePhase">
-                <option value="穩定 Stable">穩定 Stable</option>
-                <option
-                  value="不穩定 Unstable (出現新問題 / 舊問題的嚴重程度快速上升)"
+  
+              <div id="diseaseTypeDiv"></div>
+              <br />
+  
+              <div id="evaluation">
+                <h3>臨床評估</h3>
+  
+                <label for="ambulation">病人的移動能力：</label><br />
+                <select
+                  id="ambulation"
+                  class="form-select"
+                  aria-label="Default select example"
                 >
-                  不穩定 Unstable (出現新問題 / 舊問題的嚴重程度快速上升)
-                </option>
-                <option
-                  value="惡化 Deteriorating (非屬不穩定的緊急狀況，病人之整體功能正在下降/症狀逐漸惡化)"
+                  <!-- <option value="">---</option> -->
+                  <option value="可以完全正常移動與活動">
+                    可以完全正常移動與活動
+                  </option>
+                  <option value="活動量減少">活動量減少</option>
+                  <option value="主要坐或躺">主要坐或躺</option>
+                  <option value="大多臥床">大多臥床</option>
+                  <option value="完全臥床">完全臥床</option>
+                </select>
+                <br /><br />
+  
+                <label for="activity">病人的活動量：</label><br />
+                <select
+                  id="activity"
+                  class="form-select"
+                  aria-label="Default select example"
                 >
-                  惡化 Deteriorating
-                  (非屬不穩定的緊急狀況，病人之整體功能正在下降/症狀逐漸惡化)
-                </option>
-                <option value="臨終/瀕死 Terminal (預期近日內會死亡)">
-                  臨終/瀕死 Terminal (預期近日內會死亡)
-                </option>
-              </select>
-              <br /><br />
-
-              <label for="predictedPrognosis"
-                >如果要選擇最有可能的時間，你覺得這個病人的預期餘命是？：</label
-              ><br />
-              <select id="predictedPrognosis">
-                <option value="< 1周">< 1周</option>
-                <option value="1-2 周">1-2 周</option>
-                <option value="3-4 周">3-4 周</option>
-                <option value="5-6 周">5-6 周</option>
-                <option value="7-8 周">7-8 周</option>
-                <option value="9-10 周">9-10 周</option>
-                <option value="10-11周">10-11周</option>
-                <option value="> 12 周">> 12 周</option>
-              </select>
-              <br /><br />
-
-              <label for="7daySurvival"
-                >你認為病人在7天內死亡的機率為多少%？</label
-              >
+                  <!-- <option value="">---</option> -->
+                  <option value="完全正常活動與工作/沒有疾病的明顯現象">
+                    完全正常活動與工作/沒有疾病的明顯現象
+                  </option>
+                  <option value="完全正常活動與工作/有一些疾病的徵兆">
+                    完全正常活動與工作/有一些疾病的徵兆
+                  </option>
+                  <option value="較費力進行正常活動/有一些疾病的徵兆">
+                    較費力進行正常活動/有一些疾病的徵兆
+                  </option>
+                  <option value="無法做正常活動或工作/明顯疾病徵兆">
+                    無法做正常活動或工作/明顯疾病徵兆
+                  </option>
+                  <option value="無法從事自己的嗜好或做家事/明顯疾病徵兆">
+                    無法從事自己的嗜好或做家事/明顯疾病徵兆
+                  </option>
+                  <option value="無法做任何工作/明顯且廣泛的疾病徵兆">
+                    無法做任何工作/明顯且廣泛的疾病徵兆
+                  </option>
+                  <option value="無法做大部分活動/明顯且廣泛的疾病徵兆">
+                    無法做大部分活動/明顯且廣泛的疾病徵兆
+                  </option>
+                  <option value="無法做任何活動/明顯且廣泛的疾病徵兆">
+                    無法做任何活動/明顯且廣泛的疾病徵兆
+                  </option>
+                </select>
+                <br /><br />
+  
+                <label for="selfCare">病人的自我照顧能力：</label><br />
+                <select
+                  id="selfCare"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <!-- <option value="">---</option> -->
+                  <option value="可完全自理">可完全自理</option>
+                  <option value="大多可自理， 有時需要必要的協助">
+                    大多可自理， 有時需要必要的協助
+                  </option>
+                  <option value="需要不少協助">需要不少協助</option>
+                  <option value="主要依賴他人協助">主要依賴他人協助</option>
+                  <option value="完全無法自理">完全無法自理</option>
+                </select>
+                <br /><br />
+  
+                <label for="appetite">病人的食慾/胃口：</label><br />
+                <select
+                  id="appetite"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <!-- <option value="">---</option> -->
+                  <option value="正常">正常</option>
+                  <option value="減少">減少</option>
+                  <option value="極少量 僅進食少量泥狀或液體，不符一般營養需求">
+                    極少量 僅進食少量泥狀或液體，不符一般營養需求
+                  </option>
+                  <option value="無進食，僅有口腔護理">
+                    無進食，僅有口腔護理
+                  </option>
+                </select>
+                <br /><br />
+  
+                <label for="consciousness">病人的意識狀態：</label><br />
+                <select
+                  id="consciousness"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <!-- <option value="">---</option> -->
+                  <option value="完全清醒">完全清醒</option>
+                  <option value="較不清醒，有迷惑 (Confusion) 、有瞻妄或失智">
+                    較不清醒，有迷惑 (Confusion) 、有瞻妄或失智
+                  </option>
+                  <option value="多數時間昏沉">多數時間昏沉</option>
+                  <option value="昏迷 (對任何語言或物理刺激無反應)">
+                    昏迷 (對任何語言或物理刺激無反應)
+                  </option>
+                </select>
+                <br /><br />
+  
+                <label for="edema">水腫：</label><br />
+                <input
+                  type="Radio"
+                  name="edema"
+                  value="yes"
+                  class="form-check-input"
+                />有
+                <input
+                  type="Radio"
+                  name="edema"
+                  value="no"
+                  class="form-check-input"
+                  checked
+                />無 <br /><br />
+  
+                <label for="delirium">瞻妄(Delirium)：</label><br />
+                <input
+                  type="Radio"
+                  name="delirium"
+                  value="yes"
+                  class="form-check-input"
+                />有
+                <input
+                  type="Radio"
+                  name="delirium"
+                  value="no"
+                  class="form-check-input"
+                  checked
+                />無 <br /><br />
+  
+                <label for="dyspnea">喘/呼吸困難：</label><br />
+                <select
+                  id="dyspnea"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <option value="否">否</option>
+                  <option value="是，輕微(活動時感到喘)">
+                    是，輕微(活動時感到喘)
+                  </option>
+                  <option value="是，嚴重(休息時亦感到喘)">
+                    是，嚴重(休息時亦感到喘)
+                  </option>
+                </select>
+                <br /><br />
+  
+                <label for="anorexia">厭食(anorexia)：</label><br />
+                <input
+                  type="Radio"
+                  name="anorexia"
+                  value="yes"
+                  class="form-check-input"
+                />有
+                <input
+                  type="Radio"
+                  name="anorexia"
+                  value="no"
+                  class="form-check-input"
+                  checked
+                />無 <br /><br />
+  
+                <label for="AKPS">病人的 Karnofsky Performance Score(KPS)：</label
+                ><br />
+                <select
+                  id="AKPS"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <option value="10 昏迷，或是幾乎叫不醒">
+                    10 昏迷，或是幾乎叫不醒
+                  </option>
+                  <option value="20 完全臥床，需要專業人與與家屬照顧">
+                    20 完全臥床，需要專業人與與家屬照顧
+                  </option>
+                  <option value="30 幾乎完全臥床">30 幾乎完全臥床</option>
+                  <option value="40 臥床的時間 > 50%">40 臥床的時間 > 50%</option>
+                  <option value="50 生活需要別人協助，且經常需要醫療照護">
+                    50 生活需要別人協助，且經常需要醫療照護
+                  </option>
+                  <option value="60 生活有時需要協助，大多時間可自理">
+                    60 生活有時需要協助，大多時間可自理
+                  </option>
+                  <option value="70 生活可以自理，無法維持正常活動或工作">
+                    70 生活可以自理，無法維持正常活動或工作
+                  </option>
+                  <option value="80 勉強正常活動，有些許疾病的症狀o r 徵兆">
+                    80 勉強正常活動，有些許疾病的症狀 or 徵兆
+                  </option>
+                  <option value="90 可以正常活動，輕微的症狀或徵兆">
+                    90 可以正常活動，輕微的症狀或徵兆
+                  </option>
+                  <option value="100 完全正常，沒有不適">
+                    100 完全正常，沒有不適
+                  </option>
+                </select>
+                <br /><br />
+  
+                <label for="pain">病人的疼痛狀況：</label><br />
+                <select
+                  id="pain"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <option value="完全不痛">完全不痛</option>
+                  <option value="輕微不適 使用止痛藥下可控制">
+                    輕微不適 使用止痛藥下可控制
+                  </option>
+                  <option value="難以控制 常需使用救急止痛藥">
+                    難以控制 常需使用救急止痛藥
+                  </option>
+                </select>
+                <br /><br />
+  
+                <label for="jaundice">黃疸：</label><br />
+                <input
+                  type="Radio"
+                  name="jaundice"
+                  value="yes"
+                  class="form-check-input"
+                />有
+                <input
+                  type="Radio"
+                  name="jaundice"
+                  value="no"
+                  class="form-check-input"
+                  checked
+                />無 <br /><br />
+  
+                <label for="purpura">皮膚紫斑：</label><br />
+                <select
+                  id="purpura"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <option value="無">無</option>
+                  <option value="有，一處部位">有，一處部位</option>
+                  <option value="有，二處以上部位">有，二處以上部位</option>
+                </select>
+                <br /><br />
+  
+                <label for="urination">排尿：</label><br />
+                <select
+                  id="urination"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <option value="正常">正常</option>
+                  <option value="減少">減少</option>
+                  <option value="幾乎無排尿">幾乎無排尿</option>
+                </select>
+                <br /><br />
+  
+                <label for="carePhase">您認為病人處於何種照顧階段：</label><br />
+                <select
+                  id="carePhase"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <option value="穩定 Stable">穩定 Stable</option>
+                  <option
+                    value="不穩定 Unstable (出現新問題 / 舊問題的嚴重程度快速上升)"
+                  >
+                    不穩定 Unstable (出現新問題 / 舊問題的嚴重程度快速上升)
+                  </option>
+                  <option
+                    value="惡化 Deteriorating (非屬不穩定的緊急狀況，病人之整體功能正在下降/症狀逐漸惡化)"
+                  >
+                    惡化 Deteriorating
+                    (非屬不穩定的緊急狀況，病人之整體功能正在下降/症狀逐漸惡化)
+                  </option>
+                  <option value="臨終/瀕死 Terminal (預期近日內會死亡)">
+                    臨終/瀕死 Terminal (預期近日內會死亡)
+                  </option>
+                </select>
+                <br /><br />
+  
+                <label for="predictedPrognosis"
+                  >如果要選擇最有可能的時間，你覺得這個病人的預期餘命是？：</label
+                ><br />
+                <select
+                  id="predictedPrognosis"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <option value="< 1周">< 1周</option>
+                  <option value="1-2 周">1-2 周</option>
+                  <option value="3-4 周">3-4 周</option>
+                  <option value="5-6 周">5-6 周</option>
+                  <option value="7-8 周">7-8 周</option>
+                  <option value="9-10 周">9-10 周</option>
+                  <option value="10-11周">10-11周</option>
+                  <option value="> 12 周">> 12 周</option>
+                </select>
+                <br /><br />
+  
+                <label for="7daySurvival"
+                  >你認為病人在7天內死亡的機率為多少%？</label
+                >
+                <input
+                  type="range"
+                  id="7daySurvival"
+                  name="7daySurvival"
+                  min="0"
+                  max="100"
+                  value="50"
+                  step="1"
+                />
+                <span id="7daySliderValue">50</span>
+                <br /><br />
+  
+                <label for="14daySurvival"
+                  >你認為病人在14天內死亡的機率為多少%？</label
+                >
+                <input
+                  type="range"
+                  id="14daySurvival"
+                  name="14daySurvival"
+                  min="0"
+                  max="100"
+                  value="50"
+                  step="1"
+                />
+                <span id="14daySliderValue">50</span>
+                <br /><br />
+  
+                <label for="30daySurvival"
+                  >你認為病人在30天內死亡的機率為多少%？</label
+                >
+                <input
+                  type="range"
+                  id="30daySurvival"
+                  name="30daySurvival"
+                  min="0"
+                  max="100"
+                  value="50"
+                  step="1"
+                />
+                <span id="30daySliderValue">50</span>
+                <br />
+                <br />
+                <br />
+              </div>
+  
               <input
-                type="range"
-                id="7daySurvival"
-                name="7daySurvival"
-                min="0"
-                max="100"
-                value="50"
-                step="1"
+                type="button"
+                class="btn btn-primary m-2 position-absolute bottom-0 end-0"
+                id="submitButton"
+                value="評估完成!"
               />
-              <span id="7daySliderValue">50</span>
-              <br /><br />
-
-              <label for="14daySurvival"
-                >你認為病人在14天內死亡的機率為多少%？</label
-              >
-              <input
-                type="range"
-                id="14daySurvival"
-                name="14daySurvival"
-                min="0"
-                max="100"
-                value="50"
-                step="1"
-              />
-              <span id="14daySliderValue">50</span>
-              <br /><br />
-
-              <label for="30daySurvival"
-                >你認為病人在30天內死亡的機率為多少%？</label
-              >
-              <input
-                type="range"
-                id="30daySurvival"
-                name="30daySurvival"
-                min="0"
-                max="100"
-                value="50"
-                step="1"
-              />
-              <span id="30daySliderValue">50</span>
-              <br>
-              <br>
-              <br>
+            </form>
+          </div>
+  
+          <div class="container col p-1 text-dark">
+            <h3 style="font-size 3vh;">生成結果:</h3>
+            <!-- 這是用來顯示結果的區塊 -->
+            <div class ="container result-height bg-light text-dark border border-2" >
+              <div id="resultDiv" class=" scrollable-div"></div>
             </div>
-
-            <input type="button" class="btn btn-primary position-absolute bottom-0 end-0" id="submitButton" value="評估完成!" />
-
-          </form>
-        </div>
-
-        <div class="col bg-light text-dark ">
-          <h2>生成結果:</h2>
-          <!-- 這是用來顯示結果的區塊 -->
-          <div id="resultDiv" class="bg-light text-dark border border-2"></div>
+            <div>
+              <p>請注意，本網頁將<strong>不會</strong>儲存任何資訊。</p>
+              <p>如要記錄，請將產生之評估記載於病歷。</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    
 
     <!-- 這是調控顯示的javascript區塊 -->
     <script src="scripts.js" defer></script>
