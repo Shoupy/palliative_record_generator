@@ -9,23 +9,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       /* 設定full-height讓div剛好占據整個頁面 */
-    .full-height {
-    height: 100vh; /* Set the height to 100% of the viewport height */
-  }
-  .form-height {
-    height: 94vh; /* Set the height to 95% of the viewport height */
-  }
-  .result-height{
-    height: 65vh;
-  }
-  .title-height{
-    height: 5vh;
-  }
-/* 設定scrollable-div的區域跟parent element同高 */
-  .scrollable-div {
-    height: 100%; /* Set the height to 100% of the parent element */
-    overflow-y: auto; /* Enable vertical scrolling */
-  }
+      .full-height {
+        height: 100vh; /* Set the height to 100% of the viewport height */
+      }
+      .form-height {
+        height: 94vh; /* Set the height to 95% of the viewport height */
+      }
+      .result-height {
+        height: 65vh;
+      }
+      .title-height {
+        height: 5vh;
+      }
+      /* 設定scrollable-div的區域跟parent element同高 */
+      .scrollable-div {
+        height: 100%; /* Set the height to 100% of the parent element */
+        overflow-y: auto; /* Enable vertical scrolling */
+      }
     </style>
     <!--響應式網頁-->
     <!--<link rel="stylesheet" href="styles.css"> -->
@@ -52,15 +52,20 @@
     <div class="container full-height">
       <div class="container title-height">
         <div class="row title-height">
-          <div class="col bg-success p-1 text-dark bg-opacity-25 text-center title-height">
-            <h1 style="font-size: 3vh">NTUH Palliative Evaluation Record Generator</h1>
+          <div
+            class="col bg-success p-1 text-dark bg-opacity-25 text-center title-height"
+          >
+            <h1 style="font-size: 3vh">
+              NTUH Palliative Evaluation Record Generator
+            </h1>
           </div>
         </div>
       </div>
-      <div class="container form-height" >
+      <div class="container form-height">
         <div class="row form-height">
-          <div class="col bg-info p-1 text-dark bg-opacity-10 scrollable-div"
-          style="overflow:scroll; " 
+          <div
+            class="col bg-info p-1 text-dark bg-opacity-10 scrollable-div"
+            style="overflow: scroll"
           >
             <p>請依照您對病人的評估填寫以下內容</p>
             <form id="myForm">
@@ -79,7 +84,24 @@
                 class="form-check-input"
               />女性
               <br />
-  
+
+              <label for="socialWorker"
+                >你認為病患是否有社經方面的狀況，需要社工協助：</label
+              ><br />
+              <input
+                type="Radio"
+                name="socialWorker"
+                value="yes"
+                class="form-check-input"
+              />需要
+              <input
+                type="Radio"
+                name="socialWorker"
+                value="no"
+                class="form-check-input"
+                checked
+              />不需要 <br /><br />
+
               <label for="diagnosis">病人的末期診斷是：</label><br />
               <select
                 id="diagnosis"
@@ -97,13 +119,13 @@
                 <option value="老年衰弱症">老年衰弱症</option>
                 <option value="其他">其他</option>
               </select>
-  
+
               <div id="diseaseTypeDiv"></div>
               <br />
-  
+
               <div id="evaluation">
                 <h3>臨床評估</h3>
-  
+
                 <label for="ambulation">病人的移動能力：</label><br />
                 <select
                   id="ambulation"
@@ -120,7 +142,7 @@
                   <option value="完全臥床">完全臥床</option>
                 </select>
                 <br /><br />
-  
+
                 <label for="activity">病人的活動量：</label><br />
                 <select
                   id="activity"
@@ -154,7 +176,7 @@
                   </option>
                 </select>
                 <br /><br />
-  
+
                 <label for="selfCare">病人的自我照顧能力：</label><br />
                 <select
                   id="selfCare"
@@ -171,7 +193,7 @@
                   <option value="完全無法自理">完全無法自理</option>
                 </select>
                 <br /><br />
-  
+
                 <label for="appetite">病人的食慾/胃口：</label><br />
                 <select
                   id="appetite"
@@ -187,9 +209,10 @@
                   <option value="無進食，僅有口腔護理">
                     無進食，僅有口腔護理
                   </option>
+                  <option value="TPN">TPN</option>
                 </select>
                 <br /><br />
-  
+
                 <label for="consciousness">病人的意識狀態：</label><br />
                 <select
                   id="consciousness"
@@ -207,7 +230,7 @@
                   </option>
                 </select>
                 <br /><br />
-  
+
                 <label for="edema">水腫：</label><br />
                 <input
                   type="Radio"
@@ -222,7 +245,7 @@
                   class="form-check-input"
                   checked
                 />無 <br /><br />
-  
+
                 <label for="delirium">瞻妄(Delirium)：</label><br />
                 <input
                   type="Radio"
@@ -237,7 +260,7 @@
                   class="form-check-input"
                   checked
                 />無 <br /><br />
-  
+
                 <label for="dyspnea">喘/呼吸困難：</label><br />
                 <select
                   id="dyspnea"
@@ -253,7 +276,7 @@
                   </option>
                 </select>
                 <br /><br />
-  
+
                 <label for="anorexia">厭食(anorexia)：</label><br />
                 <input
                   type="Radio"
@@ -268,8 +291,9 @@
                   class="form-check-input"
                   checked
                 />無 <br /><br />
-  
-                <label for="AKPS">病人的 Karnofsky Performance Score(KPS)：</label
+
+                <label for="AKPS"
+                  >病人的 Karnofsky Performance Score(KPS)：</label
                 ><br />
                 <select
                   id="AKPS"
@@ -283,7 +307,9 @@
                     20 完全臥床，需要專業人與與家屬照顧
                   </option>
                   <option value="30 幾乎完全臥床">30 幾乎完全臥床</option>
-                  <option value="40 臥床的時間 > 50%">40 臥床的時間 > 50%</option>
+                  <option value="40 臥床的時間 > 50%">
+                    40 臥床的時間 > 50%
+                  </option>
                   <option value="50 生活需要別人協助，且經常需要醫療照護">
                     50 生活需要別人協助，且經常需要醫療照護
                   </option>
@@ -304,7 +330,7 @@
                   </option>
                 </select>
                 <br /><br />
-  
+
                 <label for="pain">病人的疼痛狀況：</label><br />
                 <select
                   id="pain"
@@ -320,7 +346,7 @@
                   </option>
                 </select>
                 <br /><br />
-  
+
                 <label for="jaundice">黃疸：</label><br />
                 <input
                   type="Radio"
@@ -335,7 +361,7 @@
                   class="form-check-input"
                   checked
                 />無 <br /><br />
-  
+
                 <label for="purpura">皮膚紫斑：</label><br />
                 <select
                   id="purpura"
@@ -347,7 +373,7 @@
                   <option value="有，二處以上部位">有，二處以上部位</option>
                 </select>
                 <br /><br />
-  
+
                 <label for="urination">排尿：</label><br />
                 <select
                   id="urination"
@@ -359,8 +385,9 @@
                   <option value="幾乎無排尿">幾乎無排尿</option>
                 </select>
                 <br /><br />
-  
-                <label for="carePhase">您認為病人處於何種照顧階段：</label><br />
+
+                <label for="carePhase">您認為病人處於何種照顧階段：</label
+                ><br />
                 <select
                   id="carePhase"
                   class="form-select"
@@ -383,7 +410,29 @@
                   </option>
                 </select>
                 <br /><br />
-  
+
+                <label for="roughPrognosis"
+                  >如果粗略估計，你認為病人的預後是：</label
+                ><br />
+                <input
+                  type="Radio"
+                  name="roughPrognosis"
+                  value="days"
+                  class="form-check-input"
+                />以日計
+                <input
+                  type="Radio"
+                  name="roughPrognosis"
+                  value="weeks"
+                  class="form-check-input"
+                />以周計
+                <input
+                  type="Radio"
+                  name="roughPrognosis"
+                  value="months"
+                  class="form-check-input"
+                />以月計 <br /><br />
+
                 <label for="predictedPrognosis"
                   >如果要選擇最有可能的時間，你覺得這個病人的預期餘命是？：</label
                 ><br />
@@ -402,7 +451,7 @@
                   <option value="> 12 周">> 12 周</option>
                 </select>
                 <br /><br />
-  
+
                 <label for="7daySurvival"
                   >你認為病人在7天內死亡的機率為多少%？</label
                 >
@@ -413,11 +462,11 @@
                   min="0"
                   max="100"
                   value="50"
-                  step="1"
+                  step="5"
                 />
                 <span id="7daySliderValue">50</span>
                 <br /><br />
-  
+
                 <label for="14daySurvival"
                   >你認為病人在14天內死亡的機率為多少%？</label
                 >
@@ -428,11 +477,11 @@
                   min="0"
                   max="100"
                   value="50"
-                  step="1"
+                  step="5"
                 />
                 <span id="14daySliderValue">50</span>
                 <br /><br />
-  
+
                 <label for="30daySurvival"
                   >你認為病人在30天內死亡的機率為多少%？</label
                 >
@@ -443,14 +492,14 @@
                   min="0"
                   max="100"
                   value="50"
-                  step="1"
+                  step="5"
                 />
                 <span id="30daySliderValue">50</span>
                 <br />
                 <br />
                 <br />
               </div>
-  
+
               <input
                 type="button"
                 class="btn btn-primary m-2 position-absolute bottom-0 end-0"
@@ -459,12 +508,20 @@
               />
             </form>
           </div>
-  
+
           <div class="container col p-1 text-dark">
             <h3 style="font-size 3vh;">生成結果:</h3>
             <!-- 這是用來顯示結果的區塊 -->
-            <div class ="container result-height bg-light text-dark border border-2" >
-              <div id="resultDiv" class=" scrollable-div"></div>
+            <div
+              class="container result-height bg-light text-dark border border-2"
+            >
+              <div id="resultDiv" class="scrollable-div"></div>
+              <button
+                class="btn btn-primary m-2 bottom-0 end-0"
+                onclick="copyTextUsingClipboard()"
+              >
+                複製文字
+              </button>
             </div>
             <div>
               <p>請注意，本網頁將<strong>不會</strong>儲存任何資訊。</p>
@@ -474,7 +531,6 @@
         </div>
       </div>
     </div>
-    
 
     <!-- 這是調控顯示的javascript區塊 -->
     <script src="scripts.js" defer></script>

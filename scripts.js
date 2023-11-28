@@ -5,12 +5,13 @@ function checkDiagnosis() {
   const diseaseTypeDiv = document.getElementById("diseaseTypeDiv");
 
   if (diagnosis === "癌症") {
-    const label = document.createElement("label");
-    label.innerText = "癌症部位：";
+    const label_1 = document.createElement("label");
+    label_1.innerText = "癌症部位：";
 
-    const select = document.createElement("select");
-    select.id = "cancerType";
-    select.innerHTML = `
+    const select_1 = document.createElement("select");
+    select_1.id = "cancerType";
+    select_1.className = "form-select";
+    select_1.innerHTML = `
           <option value="">請選擇癌症部位</option>
           <option value="中樞神經或腦癌">中樞神經或腦癌</option>
           <option value="頭頸癌">頭頸癌</option>
@@ -34,9 +35,24 @@ function checkDiagnosis() {
           <!-- ...other types... -->
           `;
 
+    const label_2 = document.createElement("label");
+    label_2.innerText = "轉移：";
+
+    const select_2 = document.createElement("select");
+    select_2.id = "metastasis";
+    select_2.className = "form-select";
+    select_2.innerHTML = `
+                <option value="">是否有轉移</option>
+                <option value="有轉移">是</option>
+                <option value="無轉移">否</option>
+                <!-- ...other types... -->
+                `;
+
     diseaseTypeDiv.innerHTML = ""; // Clear the div
-    diseaseTypeDiv.appendChild(label);
-    diseaseTypeDiv.appendChild(select);
+    diseaseTypeDiv.appendChild(label_1);
+    diseaseTypeDiv.appendChild(select_1);
+    diseaseTypeDiv.appendChild(label_2);
+    diseaseTypeDiv.appendChild(select_2);
   } else if (diagnosis === "神經疾病") {
     const label = document.createElement("label");
     label.innerText = "神經疾病的種類：";
@@ -135,9 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Do something with value
       diagnosis_detail = "(" + neurologicalType + ")";
     } catch (error) {
-      console.warn(
-        "neurologicalType Element or value not found, skipping..."
-      );
+      console.warn("neurologicalType Element or value not found, skipping...");
     }
     ///腎衰竭次診斷
     try {
@@ -146,11 +160,16 @@ document.addEventListener("DOMContentLoaded", function () {
       // Do something with value
       diagnosis_detail = "(" + renalFailureType + ")";
     } catch (error) {
-      console.warn(
-        "renalFailureType Element or value not found, skipping..."
-      );
+      console.warn("renalFailureType Element or value not found, skipping...");
     }
 
+    //社經狀況評估
+    const sex = document.querySelector(
+      'input[name="sex"]:checked'
+    ).value;
+    const socialWorker = document.querySelector(
+      'input[name="socialWorker"]:checked'
+    ).value;
     //收集功能評估
     ///ambulation
     const ambulation = document.getElementById("ambulation").value;
@@ -165,9 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const consciousness = document.getElementById("consciousness").value;
 
     ///edema
-    const edema = document.querySelector(
-      'input[name="edema"]:checked'
-    ).value;
+    const edema = document.querySelector('input[name="edema"]:checked').value;
     ///delirium
     const delirium = document.querySelector(
       'input[name="delirium"]:checked'
@@ -197,6 +214,12 @@ document.addEventListener("DOMContentLoaded", function () {
     ///carePhase
     const carePhase = document.getElementById("carePhase").value;
 
+
+    ///roughPrognosis
+    const roughPrognosis = document.querySelector(
+      'input[name="roughPrognosis"]:checked'
+    ).value;
+
     ///predictedPrognosis
     const predictedPrognosis =
       document.getElementById("predictedPrognosis").value;
@@ -217,82 +240,97 @@ document.addEventListener("DOMContentLoaded", function () {
         PPS = "100 %";
       } else {
         //若無法完全正常工作活動就是80-90分
-        if (appetite == "正常") {
-          PPS =  "90 %";
+        if ((appetite == "正常")||(appetite == "TPN")) {  //TPN也屬正常食慾
+          PPS = "90 %";
         } else {
-          PPS =  "80 %"; //若食量減少就屬於80分
+          PPS = "80 %"; //若食量減少就屬於80分
         }
       }
     } else if (ambulation == "活動量減少") {
       if (selfCare == "可完全自理") {
         if (consciousness == "完全清醒") {
-          PPS =  "70 %";
+          PPS = "70 %";
         } else {
-          PPS =  "60 %"; //若意識有較不清醒就屬60分
+          PPS = "60 %"; //若意識有較不清醒就屬60分
         }
       } else {
-        PPS =  "60 %"; //若無法完全自理就屬於60分
+        PPS = "60 %"; //若無法完全自理就屬於60分
       }
     } else if (ambulation == "主要坐或躺") {
       if (selfCare == "需要不少協助") {
         if (consciousness == "昏迷") {
-          PPS =  "40 %"; //若病人被評為昏迷，應屬40分
+          PPS = "40 %"; //若病人被評為昏迷，應屬40分
         } else {
-          PPS =  "50 %";
+          PPS = "50 %";
         }
       }
     } else if (ambulation == "大多臥床") {
-      if (selfCare == "主要依賴他人協助") {
+      if(selfCare == "完全無法自理") {
+        PPS = "30 %"; //若平完全依賴他人，則應該也算是bed-ridden應該要30%
+      }  else {
         //selfCare應為主要依賴他人協助
-        PPS =  "40 %";
-      } else if (selfCare == "完全無法自理") {
-        PPS =  "30 %"; //若平完全依賴他人，則應該也算是bed-ridden應該要30%
+        PPS = "40 %";
       }
     } else if (ambulation == "完全臥床") {
       if (appetite == "無進食，僅有口腔護理") {
-        PPS =  "10 %";
-      } else if (
-        appetite == "極少量 僅進食少量泥狀或液體，不符一般營養需求"
-      ) {
-        PPS =  "20 %";
+        PPS = "10 %";
+      } else if (appetite == "極少量 僅進食少量泥狀或液體，不符一般營養需求") {
+        PPS = "20 %";
       } else {
-        PPS =  "30 %";
+        PPS = "30 %";
       }
     }
 
+
+    // 計算PaP
+    
     // 組合結果
     let resultText = `
-    
-    <p>Terminal Diagnosis: ${diagnosis} ${diagnosis_detail}</p>
-    <p>Ambulation: ${ambulation}</p>
-    <p>Activity: ${activity}</p>
-    <p>Appetite: ${appetite}</p>
-    <p>Self-care: ${selfCare}</p>
-    <p>Consciousness: ${consciousness}</p>
-
-  
-    <p>Edema:${edema}</p>
-    <p>Delirium:${delirium}</p>
-    <p>Dyspnea:${dyspnea}</p>
-    <p>Anorexia:${anorexia}</p>
-    <p>AKPS: ${AKPS}</p>
-    <p>Pain: ${pain}</p>
-
-    <p>Jaundice: ${jaundice}</p>
-    <p>Purpura: ${jaundice}</p>
-    <p>Urination: ${urination}</p>
-    <p>Care Phase: ${carePhase}</p>
-    <p>------------------------</p>
-    <p>Predicted prognosis: ${predictedPrognosis}</p>
-    <p>Predicted 7-day death: ${survivalDay7} %</p>
-    <p>Predicted 14-day death: ${survivalDay14} %</p>
-    <p>Predicted 30-day death: ${survivalDay30} %</p>
-
+    ${sex}<br>
+    Terminal Diagnosis: ${diagnosis} ${diagnosis_detail}<br>
+    Ambulation: ${ambulation}<br>
+    Activity: ${activity}<br>
+    Appetite: ${appetite}<br>
+    Self-care: ${selfCare}<br>
+    Consciousness: ${consciousness}<br>
+    Edema:${edema}<br>
+    Delirium:${delirium}<br>
+    Dyspnea:${dyspnea}<br>
+    Anorexia:${anorexia}<br>
+    AKPS: ${AKPS}<br>
+    Pain: ${pain}<br>
+    Jaundice: ${jaundice}<br>
+    Purpura: ${jaundice}<br>
+    Urination: ${urination}<br>
+    Care Phase: ${carePhase}<br>
+    ------------------------<br>
+    Prognosis (rough): ${roughPrognosis}<br>
+    Predicted prognosis: ${predictedPrognosis}<br>
+    Predicted 7-day death: ${survivalDay7} %<br>
+    Predicted 14-day death: ${survivalDay14} %<br>
+    Predicted 30-day death: ${survivalDay30} %<br>
     <!-- 其他問題的結果... -->
-    <p>Palliative performance scale (PPS): ${PPS}</p>
+    <p>Palliative performance scale (PPS): ${PPS}<br>
+    ------------------------------------<br>
+    Social-economic (SW need): ${socialWorker}
     `;
 
     // 顯示結果
     resultDiv.innerHTML = resultText;
   });
 });
+
+async function copyTextUsingClipboard() {
+  try {
+    // 獲取 input 元素內容
+    var textToCopy = document.getElementById("resultDiv").innerText;
+
+    // 使用 Clipboard API 進行複製
+    await navigator.clipboard.writeText(textToCopy);
+
+    // Optional：給予用戶反饋
+    // alert("已複製的內容: " + textToCopy);
+  } catch (err) {
+    console.error("Failed to copy: ", err);
+  }
+}
