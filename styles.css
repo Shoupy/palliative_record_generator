@@ -15,3 +15,14 @@
     flex-direction: row;
   }
 }
+
+/* 在所有裝置上預設為非滾動 */
+.custom-scrollable-div {
+  overflow: hidden;
+}
+
+/* 在寬度大於 768px 的裝置（通常是桌面和平板）上設置為滾動 */
+@media (min-width: 768px) {
+  .custom-scrollable-div {
+      overflow: scroll;  }
+}
