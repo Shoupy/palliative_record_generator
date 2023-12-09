@@ -164,9 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     //社經狀況評估
-    const sex = document.querySelector(
-      'input[name="sex"]:checked'
-    ).value;
+    const sex = document.querySelector('input[name="sex"]:checked').value;
     const socialWorker = document.querySelector(
       'input[name="socialWorker"]:checked'
     ).value;
@@ -214,7 +212,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ///carePhase
     const carePhase = document.getElementById("carePhase").value;
 
-
     ///roughPrognosis
     const roughPrognosis = document.querySelector(
       'input[name="roughPrognosis"]:checked'
@@ -237,53 +234,95 @@ document.addEventListener("DOMContentLoaded", function () {
     let PPS = "";
     if (ambulation == "可以完全正常移動與活動") {
       if (activity == "完全正常活動與工作/沒有疾病的明顯現象") {
-        PPS = "100 %";
+        PPS = 100;
       } else {
         //若無法完全正常工作活動就是80-90分
-        if ((appetite == "正常")||(appetite == "TPN")) {  //TPN也屬正常食慾
-          PPS = "90 %";
+        if (appetite == "正常" || appetite == "TPN") {
+          //TPN也屬正常食慾
+          PPS = 90;
         } else {
-          PPS = "80 %"; //若食量減少就屬於80分
+          PPS = 80; //若食量減少就屬於80分
         }
       }
     } else if (ambulation == "活動量減少") {
       if (selfCare == "可完全自理") {
         if (consciousness == "完全清醒") {
-          PPS = "70 %";
+          PPS = 70;
         } else {
-          PPS = "60 %"; //若意識有較不清醒就屬60分
+          PPS = 60; //若意識有較不清醒就屬60分
         }
       } else {
-        PPS = "60 %"; //若無法完全自理就屬於60分
+        PPS = 60; //若無法完全自理就屬於60分
       }
     } else if (ambulation == "主要坐或躺") {
       if (selfCare == "需要不少協助") {
         if (consciousness == "昏迷") {
-          PPS = "40 %"; //若病人被評為昏迷，應屬40分
+          PPS = 40; //若病人被評為昏迷，應屬40分
         } else {
-          PPS = "50 %";
+          PPS = 50;
         }
       }
     } else if (ambulation == "大多臥床") {
-      if(selfCare == "完全無法自理") {
-        PPS = "30 %"; //若平完全依賴他人，則應該也算是bed-ridden應該要30%
-      }  else {
+      if (selfCare == "完全無法自理") {
+        PPS = 30; //若平完全依賴他人，則應該也算是bed-ridden應該要30%
+      } else {
         //selfCare應為主要依賴他人協助
-        PPS = "40 %";
+        PPS = 40;
       }
     } else if (ambulation == "完全臥床") {
       if (appetite == "無進食，僅有口腔護理") {
-        PPS = "10 %";
+        PPS = 10;
       } else if (appetite == "極少量 僅進食少量泥狀或液體，不符一般營養需求") {
-        PPS = "20 %";
+        PPS = 20;
       } else {
-        PPS = "30 %";
+        PPS = 30;
       }
     }
 
+    // 計算 Palliative Prognostic Index (PPI)
+    let PPI = 0;
 
-    // 計算PaP
-    
+    // 根据 PPS 加分
+    if (PPS >= 10 && PPS <= 20) {
+      PPI += 4;
+    } else if (PPS >= 30 && PPS <= 50) {
+      PPI += 2;
+    }
+    // PPS 大于 60 不加分
+
+    // 根据 Oral intake 加分
+    if (
+      appetite === "極少量 僅進食少量泥狀或液體，不符一般營養需求" ||
+      appetite === "無進食，僅有口腔護理"
+    ) {
+      PPI += 2.5;
+    } else if (appetite === "減少") {
+      PPI += 1;
+    }
+    // Oral intake 正常或使用TPN則不加分
+
+    //根據edema加分
+    if (edema === "yes") {
+      PPI += 1;
+    }
+    // 無edema則不加分
+
+    //根據dyspnea加分
+    if (
+      dyspnea === "是，嚴重(休息時亦感到喘)" ||
+      dyspnea === "是，輕微(活動時感到喘)"
+    ) {
+      PPI += 3.5;
+    }
+    // 無dyspnea則不加分
+
+    // 根據delirium加分
+    if (delirium === "yes"){
+      PPI += 4;
+    }
+    // 無delirium則不加分
+
+
 
     // 組合結果
     let resultText = `
@@ -311,7 +350,8 @@ document.addEventListener("DOMContentLoaded", function () {
     Predicted 14-day death: ${survivalDay14} %<br>
     Predicted 30-day death: ${survivalDay30} %<br>
     <!-- 其他問題的結果... -->
-    <p>Palliative performance scale (PPS): ${PPS}<br>
+    <p>Palliative performance scale (PPS): ${PPS} %<br>
+    Palliative Prognostic Index (PPI): ${PPI}<br>
     ------------------------------------<br>
     Social-economic (SW need): ${socialWorker}
     `;
@@ -336,8 +376,12 @@ async function copyTextUsingClipboard() {
   }
 }
 function sendMail() {
-  var emailContent = document.getElementById('resultDiv').innerText; // 從您的元素中獲取內容
+  var emailContent = document.getElementById("resultDiv").innerText; // 從您的元素中獲取內容
   var subject = "Palliative Evaluation Record";
-  var mailtoLink = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(emailContent);
+  var mailtoLink =
+    "mailto:?subject=" +
+    encodeURIComponent(subject) +
+    "&body=" +
+    encodeURIComponent(emailContent);
   window.location.href = mailtoLink; // 開啟預設郵件客戶端
 }
