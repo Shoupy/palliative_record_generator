@@ -284,6 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 計算PaP
     
+
     // 組合結果
     let resultText = `
     ${sex}<br>
@@ -333,4 +334,10 @@ async function copyTextUsingClipboard() {
   } catch (err) {
     console.error("Failed to copy: ", err);
   }
+}
+function sendMail() {
+  var emailContent = document.getElementById('resultDiv').innerText; // 從您的元素中獲取內容
+  var subject = "Palliative Evaluation Record";
+  var mailtoLink = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(emailContent);
+  window.location.href = mailtoLink; // 開啟預設郵件客戶端
 }

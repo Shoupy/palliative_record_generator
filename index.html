@@ -55,7 +55,7 @@
           <div
             class="col bg-success p-1 text-dark bg-opacity-25 text-center title-height"
           >
-            <h1 style="font-size: 3vh">
+            <h1 style="font-size: 1em">
               NTUH Palliative Evaluation Record Generator
             </h1>
           </div>
@@ -509,18 +509,25 @@
             </form>
           </div>
 
-          <div class="container col p-1 text-dark">
-            <h3 style="font-size 3vh;">生成結果:</h3>
+          <div class="container col p-1">
+            <h3 style="font-size: 1em">生成結果:</h3>
             <!-- 這是用來顯示結果的區塊 -->
             <div
-              class="container result-height bg-light text-dark border border-2"
+              class="container result-height bg-light border border-2 position-relative"
             >
               <div id="resultDiv" class="scrollable-div"></div>
               <button
-                class="btn btn-primary m-2 bottom-0 end-0"
+                class="btn btn-dark m-2 bottom-0 end-0 position-absolute text-light"
                 onclick="copyTextUsingClipboard()"
               >
                 複製文字
+              </button>
+              <button
+                id="sendEmail"
+                class="btn btn-dark m-2 bottom-0 start-0 position-absolute text-light"
+                onclick="sendMail()"
+              >
+                mail保存
               </button>
             </div>
             <div>
