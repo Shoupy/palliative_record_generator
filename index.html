@@ -26,6 +26,20 @@
         height: 100%; /* Set the height to 100% of the parent element */
         overflow-y: auto; /* Enable vertical scrolling */
       }
+
+      .custom-scrollable-div {
+        height: 100%; /* Set the height to 100% of the parent element */
+        overflow: hidden;
+      }
+
+      /* 在寬度大於 768px 的裝置（通常是桌面和平板）上設置為滾動 */
+      @media (min-width: 768px) {
+        .custom-scrollable-div {
+          height: 100%; /* Set the height to 100% of the parent element */
+          overflow-y: auto; /* Enable vertical scrolling */
+          overflow: auto;
+        }
+      }
     </style>
     <!--響應式網頁-->
     <!--<link rel="stylesheet" href="styles.css"> -->
@@ -65,8 +79,8 @@
         <div class="row form-height">
           <div
             class="col-sm-12 col-md-6 bg-info p-1 text-dark bg-opacity-10 custom-scrollable-div"
-            style="overflow: scroll"
           >
+            <!-- style="overflow: scroll" -->
             <p>請依照您對病人的評估填寫以下內容</p>
             <form id="myForm">
               <h3>基本資料</h3>

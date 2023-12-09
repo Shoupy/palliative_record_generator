@@ -10,7 +10,7 @@
 }
 
 /* Media query for screens wider than 600px */
-@media (min-width: 600px) {
+@media (min-width: 768px) {
   .container {
     flex-direction: row;
   }
@@ -18,11 +18,14 @@
 
 /* 在所有裝置上預設為非滾動 */
 .custom-scrollable-div {
+  height: 100%; /* Set the height to 100% of the parent element */
   overflow: hidden;
 }
 
 /* 在寬度大於 768px 的裝置（通常是桌面和平板）上設置為滾動 */
 @media (min-width: 768px) {
   .custom-scrollable-div {
-      overflow: scroll;  }
+    height: 100%; /* Set the height to 100% of the parent element */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow: auto;  }
 }
