@@ -43,8 +43,8 @@ function checkDiagnosis() {
     select_2.className = "form-select";
     select_2.innerHTML = `
                 <option value="">是否有轉移</option>
-                <option value="有轉移">是</option>
-                <option value="無轉移">否</option>
+                <option value="+">是</option>
+                <option value="-">否</option>
                 <!-- ...other types... -->
                 `;
 
@@ -139,8 +139,9 @@ document.addEventListener("DOMContentLoaded", function () {
     ///癌症次診斷
     try {
       const cancerType = document.getElementById("cancerType").value;
+      const metastasis = document.getElementById("metastasis").value;
       // Do something with value
-      diagnosis_detail = "(" + cancerType + ")";
+      diagnosis_detail = "[" + cancerType + " metastasis(" + metastasis +")]";
     } catch (error) {
       console.warn("cancerType Element or value not found, skipping...");
     }
@@ -149,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const neurologicalType =
         document.getElementById("neurologicalType").value;
       // Do something with value
-      diagnosis_detail = "(" + neurologicalType + ")";
+      diagnosis_detail = "[" + neurologicalType + "]";
     } catch (error) {
       console.warn("neurologicalType Element or value not found, skipping...");
     }
@@ -158,13 +159,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const renalFailureType =
         document.getElementById("renalFailureType").value;
       // Do something with value
-      diagnosis_detail = "(" + renalFailureType + ")";
+      diagnosis_detail = "[" + renalFailureType + "]";
     } catch (error) {
       console.warn("renalFailureType Element or value not found, skipping...");
     }
 
     //社經狀況評估
-    const sex = document.querySelector('input[name="sex"]:checked').value;
+    // const sex = document.querySelector('input[name="sex"]:checked').value;
     const socialWorker = document.querySelector(
       'input[name="socialWorker"]:checked'
     ).value;
@@ -326,17 +327,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 組合結果
     let resultText = `
-    ${sex}<br>
     Terminal Diagnosis: ${diagnosis} ${diagnosis_detail}<br>
     Ambulation: ${ambulation}<br>
     Activity: ${activity}<br>
     Appetite: ${appetite}<br>
     Self-care: ${selfCare}<br>
     Consciousness: ${consciousness}<br>
-    Edema:${edema}<br>
-    Delirium:${delirium}<br>
-    Dyspnea:${dyspnea}<br>
-    Anorexia:${anorexia}<br>
+    Edema: ${edema}<br>
+    Delirium: ${delirium}<br>
+    Dyspnea: ${dyspnea}<br>
+    Anorexia: ${anorexia}<br>
     AKPS: ${AKPS}<br>
     Pain: ${pain}<br>
     Jaundice: ${jaundice}<br>
@@ -344,14 +344,16 @@ document.addEventListener("DOMContentLoaded", function () {
     Urination: ${urination}<br>
     Care Phase: ${carePhase}<br>
     ------------------------<br>
-    Prognosis (rough): ${roughPrognosis}<br>
-    Predicted prognosis: ${predictedPrognosis}<br>
-    Predicted 7-day death: ${survivalDay7} %<br>
-    Predicted 14-day death: ${survivalDay14} %<br>
-    Predicted 30-day death: ${survivalDay30} %<br>
-    <!-- 其他問題的結果... -->
     <p>Palliative performance scale (PPS): ${PPS} %<br>
     Palliative Prognostic Index (PPI): ${PPI}<br>
+    ------------------------<br>
+    Clinical predicted survival (CPS) <br>
+    Rough: ${roughPrognosis}<br>
+    Predicted: ${predictedPrognosis}<br>
+    7-day: ${survivalDay7} %<br>
+    14-day: ${survivalDay14} %<br>
+    30-day: ${survivalDay30} %<br>
+    <!-- 其他問題的結果... -->
     ------------------------------------<br>
     Social-economic (SW need): ${socialWorker}
     `;

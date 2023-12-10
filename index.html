@@ -29,7 +29,7 @@
 
       .custom-scrollable-div {
         /*height: 100%; /* Set the height to 100% of the parent element*/
-        overflow: auto;
+        overflow: scroll;
       }
 
       /* 在寬度大於 768px 的裝置（通常是桌面和平板）上設置為滾動 */
@@ -76,7 +76,7 @@
         </div>
       </div>
       <div class="container form-height">
-        <div class="row form-height">
+        <div class="row form-height ">
           <div
             class="col-sm-12 col-md-6 bg-info p-1 text-dark bg-opacity-10 custom-scrollable-div"
           >
@@ -84,7 +84,7 @@
             <p>請依照您對病人的評估填寫以下內容</p>
             <form id="myForm">
               <h3>基本資料</h3>
-              <label for="sex">性別：</label>
+              <!-- <label for="sex">性別：</label>
               <input
                 type="Radio"
                 name="sex"
@@ -98,24 +98,8 @@
                 class="form-check-input"
                 checked
               />女性
-              <br />
+              <br /> -->
 
-              <label for="socialWorker"
-                >你認為病患是否有社經方面的狀況，需要社工協助：</label
-              ><br />
-              <input
-                type="Radio"
-                name="socialWorker"
-                value="yes"
-                class="form-check-input"
-              />需要
-              <input
-                type="Radio"
-                name="socialWorker"
-                value="no"
-                class="form-check-input"
-                checked
-              />不需要 <br /><br />
 
               <label for="diagnosis">病人的末期診斷是：</label><br />
               <select
@@ -137,6 +121,23 @@
 
               <div id="diseaseTypeDiv"></div>
               <br />
+              <label for="socialWorker"
+              >你認為病患是否有社經方面的狀況，需要社工協助：</label
+            ><br />
+            <input
+              type="Radio"
+              name="socialWorker"
+              value="yes"
+              class="form-check-input"
+            />需要
+            <input
+              type="Radio"
+              name="socialWorker"
+              value="no"
+              class="form-check-input"
+              checked
+            />不需要 <br /><br />
+
 
               <div id="evaluation">
                 <h3>臨床評估</h3>
@@ -518,7 +519,7 @@
 
               <input
                 type="button"
-                class="btn btn-primary m-2 position-absolute bottom-0 end-0"
+                class="btn btn-primary m-2 " 
                 id="submitButton"
                 value="評估完成!"
               />
@@ -531,7 +532,7 @@
             <div
               class="container result-height bg-light border border-2 position-relative"
             >
-              <div id="resultDiv" class="custom-scrollable-div"></div>
+              <div id="resultDiv" class="scrollable-div"></div>
               <button
                 class="btn btn-dark m-2 bottom-0 end-0 position-absolute text-light"
                 onclick="copyTextUsingClipboard()"
