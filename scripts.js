@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const cancerType = document.getElementById("cancerType").value;
       const metastasis = document.getElementById("metastasis").value;
       // Do something with value
-      diagnosis_detail = "[" + cancerType + " metastasis(" + metastasis +")]";
+      diagnosis_detail = "[" + cancerType + " metastasis(" + metastasis + ")]";
     } catch (error) {
       console.warn("cancerType Element or value not found, skipping...");
     }
@@ -256,12 +256,10 @@ document.addEventListener("DOMContentLoaded", function () {
         PPS = 60; //若無法完全自理就屬於60分
       }
     } else if (ambulation == "主要坐或躺") {
-      if (selfCare == "需要不少協助") {
-        if (consciousness == "昏迷") {
-          PPS = 40; //若病人被評為昏迷，應屬40分
-        } else {
-          PPS = 50;
-        }
+      if (consciousness == "昏迷") {
+        PPS = 40; //若病人被評為昏迷，應屬40分
+      } else {
+        PPS = 50;
       }
     } else if (ambulation == "大多臥床") {
       if (selfCare == "完全無法自理") {
@@ -318,12 +316,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // 無dyspnea則不加分
 
     // 根據delirium加分
-    if (delirium === "yes"){
+    if (delirium === "yes") {
       PPI += 4;
     }
     // 無delirium則不加分
-
-
 
     // 組合結果
     let resultText = `
