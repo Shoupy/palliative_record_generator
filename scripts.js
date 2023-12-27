@@ -18,7 +18,7 @@ function checkDiagnosis() {
           <option value="肺癌">肺癌</option>
           <option value="乳癌">乳癌</option>
           <option value="肝癌">肝癌</option>
-          <option value="食道癌">胃癌</option>
+          <option value="食道癌">食道癌</option>
           <option value="胃癌">胃癌</option>
           <option value="胰臟癌">胰臟癌</option>
           <option value="腎臟癌">腎臟癌</option>
